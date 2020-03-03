@@ -1,12 +1,20 @@
 using System.Collections.Generic;
 using DotNetReact.Models;
 using System;
+using System.Threading.Tasks;
 
 namespace DotNetReact.Data
 {
 
   public class VeggieProcessor : IVeggieProcessor
   {
+    private readonly IVeggieDataAccess _dataAccess;
+    public VeggieProcessor()
+    {
+      _dataAccess = new VeggieDataAccess();
+    }
+
+
     public IVeggie Create(string name, double price)
     {
       // just in case the front end react didn't get everything validated
@@ -26,9 +34,10 @@ namespace DotNetReact.Data
       return new Veggie(Guid.NewGuid(), name, price);
     }
 
-    public List<IVeggie> Get()
+    public async Task<List<Veggie>> Get()
     {
-      throw new System.NotImplementedException();
+      const string sql = "SP_GetVeggies";
+      return await _dataAccess.Get(sql);
     }
 
     public bool Insert(IVeggie veggie)

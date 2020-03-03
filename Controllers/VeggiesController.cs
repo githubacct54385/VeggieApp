@@ -4,6 +4,7 @@ using DotNetReact.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using DotNetReact.Data;
+using System.Threading.Tasks;
 
 namespace DotNetReact.Controllers
 {
@@ -11,26 +12,20 @@ namespace DotNetReact.Controllers
   [Route("[controller]")]
   public class VeggiesController : ControllerBase
   {
-    private readonly ILogger<VeggiesController> _logger;
     private readonly IVeggieProcessor _veggieProcessor;
 
-    public VeggiesController(ILogger<VeggiesController> logger, IVeggieProcessor processor)
+    public VeggiesController()
     {
-      _logger = logger;
-      _veggieProcessor = processor;
+      _veggieProcessor = new VeggieProcessor();
     }
 
     [HttpGet]
     [Route("/Veggies/GetVeggies")]
-    public VeggiesPayload GetVeggies()
+    public async Task<VeggiesPayload> GetVeggies()
     {
-
       try
       {
-        List<Veggie> veggies = new List<Veggie>();
-        veggies.Add(new Veggie(Guid.NewGuid(), "Carrot", 3.50));
-        veggies.Add(new Veggie(Guid.NewGuid(), "Radish", 2.20));
-
+        List<Veggie> veggies = await _veggieProcessor.Get();
         return new VeggiesPayload(veggies, "", true);
       }
       catch (System.Exception)

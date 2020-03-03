@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using DotNetReact.Models;
 
 namespace DotNetReact.Data
@@ -6,7 +7,7 @@ namespace DotNetReact.Data
   public interface IVeggieProcessor
   {
     // Gets all the veggies
-    public List<IVeggie> Get();
+    public Task<List<Veggie>> Get();
 
     // Validates a veggie's data before insertion
     public IVeggie Create(string name, double price);

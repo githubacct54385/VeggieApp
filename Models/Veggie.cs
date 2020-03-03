@@ -7,6 +7,11 @@ namespace DotNetReact.Models
     public string Name { get; set; }
     public double Price { get; set; }
 
+    public Veggie()
+    {
+
+    }
+
     public Veggie(Guid id, string name, double price)
     {
       Id = id;
