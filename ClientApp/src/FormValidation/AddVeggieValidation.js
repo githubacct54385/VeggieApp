@@ -10,8 +10,18 @@ export default function AddVeggieValidation(name, price) {
     };
   }
 
+  const numericPattern = /[0-9]/g;
+  if (numericPattern.test(name) === true) {
+    return {
+      hasError: true,
+      err: "Veggie name cannot be numeric.",
+      field: "name"
+    };
+  }
+
+  const correctNamePattern = /([\s]*[A-Za-z]*[\s]*[A-Za-z]*)*/g;
   // name must be alphabetical
-  if (validator.isAlpha(name) === false) {
+  if (correctNamePattern.test(name) === false) {
     return {
       hasError: true,
       err: "Veggie name must be alphabetical",
