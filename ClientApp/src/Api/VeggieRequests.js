@@ -9,21 +9,29 @@ export default class VeggieRequests {
           const { data } = res;
           resolve(data);
         })
-        .catch(err => resolve({ veggies: [], error: err, success: false }));
+        .catch(err => resolve({ veggies: [], msg: err, success: false }));
+    });
+  };
+
+  deleteVeggie = veggieId => {
+    return new Promise(resolve => {
+      axios({
+        url: "/Veggies/DeleteVeggie",
+        method: "DELETE",
+        data: {
+          Id: veggieId
+        }
+      })
+        .then(res => {
+          const { data } = res;
+          resolve(data);
+        })
+        .catch(err => resolve({ success: false, msg: err }));
     });
   };
 
   addVeggie = (name, price) => {
-    console.log(typeof name, Number(price));
-    const payload = { Name: name, Price: price };
     return new Promise(resolve => {
-      const body = JSON.stringify(payload);
-      console.log(body);
-      const config = {
-        headers: {
-          "Content-Type": "application/json"
-        }
-      };
       axios({
         url: "/Veggies/CreateVeggie",
         method: "POST",
@@ -37,14 +45,6 @@ export default class VeggieRequests {
           resolve(data);
         })
         .catch(err => resolve({ success: false, msg: err }));
-      //resolve();
-      // axios
-      //   .post("/Veggies/CreateVeggie", body, config)
-      //   .then(res => {
-      //     const { data } = res;
-      //     resolve(data);
-      //   })
-      //   .catch(err => resolve({ success: false, msg: err }));
     });
   };
 }

@@ -38,8 +38,59 @@ namespace DotNetReact.Controllers {
         return new CreateVeggiePayload (false, "Insert Veggie failed at the Data Access layer.");
 
       } catch (System.Exception ex) {
-        return new CreateVeggiePayload (false, $"Server Error! {payload.Name}, {payload.Price}  Did you check your connection string?");
+        return new CreateVeggiePayload (false, "Server Error!  Did you check your connection string?");
       }
+    }
+
+    [HttpPut]
+    [Route ("/Veggies/UpdateVeggie")]
+    public async Task<CreateVeggiePayload> UpdateVeggie ([FromBody] UpdateVeggieParams payload) {
+      try {
+        // find this veggie
+        Veggie foundVeggie = await _veggieProcessor.GetById (payload.Id);
+        if (foundVeggie == null) {
+          throw new Exception ($"Unable to find Veggie by Id {payload.Id}");
+        }
+
+        // update the name and price
+        foundVeggie.Name = payload.Name;
+        foundVeggie.Price = Convert.ToDouble (payload.Price);
+
+        // update it
+        bool inserted = await _veggieProcessor.Update (foundVeggie);
+        if (inserted) {
+          return new CreateVeggiePayload (true, "");
+        }
+        return new CreateVeggiePayload (false, "Update failed at the Data Access layer.");
+
+      } catch (System.Exception ex) {
+        return new CreateVeggiePayload (false, "Server Error! Did you check your connection string?");
+      }
+    }
+
+    [HttpDelete]
+    [Route ("/Veggies/DeleteVeggie")]
+    public async Task<CreateVeggiePayload> DeleteVeggie ([FromBody] DeleteVeggieParams payload) {
+      try {
+        if (payload.Id == Guid.Empty) {
+          throw new Exception ("Delete Id was an empty Guid.");
+        }
+        bool deleted = await _veggieProcessor.Delete (payload.Id);
+        if (deleted) {
+          return new CreateVeggiePayload (true, "");
+        }
+        return new CreateVeggiePayload (false, "Delete failed at the Data Access layer.");
+      } catch (System.Exception ex) {
+        return new CreateVeggiePayload (false, "Server Error! Did you check your connection string?");
+      }
+    }
+
+  }
+
+  public class DeleteVeggieParams {
+    public Guid Id { get; set; }
+    public DeleteVeggieParams () {
+
     }
   }
 
@@ -48,6 +99,16 @@ namespace DotNetReact.Controllers {
     public string Price { get; set; }
 
     public CreateVeggieParams () {
+
+    }
+  }
+
+  public class UpdateVeggieParams {
+    public Guid Id { get; set; }
+    public string Name { get; set; }
+    public string Price { get; set; }
+
+    public UpdateVeggieParams () {
 
     }
   }

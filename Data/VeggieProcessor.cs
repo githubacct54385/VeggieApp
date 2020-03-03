@@ -32,9 +32,24 @@ namespace DotNetReact.Data {
       return await _dataAccess.Get (sql);
     }
 
+    public async Task<Veggie> GetById (Guid id) {
+      const string sql = "SP_GetVeggieById";
+      return await _dataAccess.GetById (sql, id);
+    }
+
     public async Task<bool> Insert (Veggie veggie) {
       const string sql = "SP_InsertVeggie";
       return await _dataAccess.Insert (sql, veggie);
+    }
+
+    public async Task<bool> Update (Veggie veggie) {
+      const string sql = "SP_UpdateVeggie";
+      return await _dataAccess.Update (sql, veggie);
+    }
+
+    public async Task<bool> Delete (Guid id) {
+      const string sql = "SP_DeleteVeggie";
+      return await _dataAccess.Delete (sql, id);
     }
   }
 }

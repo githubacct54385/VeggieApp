@@ -30,14 +30,22 @@ const VeggieButtons = styled.div`
   flex: 1;
 `;
 
-const Veggie = ({ veggieId, veggieName, veggiePrice }) => {
+const Veggie = ({ veggieId, veggieName, veggiePrice, onDeleteClicked }) => {
   return (
     <VeggieFlexContainer>
       <VeggieName>{veggieName}</VeggieName>
       <VeggiePrice>${veggiePrice}</VeggiePrice>
       <VeggieButtons>
         <button className="btn btn-light m-2">Update</button>
-        <button className="btn btn-danger m-2">Delete</button>
+        <button
+          onClick={e => {
+            e.preventDefault();
+            onDeleteClicked(veggieId);
+          }}
+          className="btn btn-danger m-2"
+        >
+          Delete
+        </button>
       </VeggieButtons>
     </VeggieFlexContainer>
   );
@@ -51,25 +59,17 @@ const Veggies = () => {
     queryData().then(() => {
       setLoading(false);
     });
-    // const api = new VeggieRequests();
-    // api.getVeggies().then(data => {
-    //   if (data.success) {
-    //     setVeggies(data.veggies);
-    //   } else {
-    //     setErr(data.error);
-    //   }
-    //   setLoading(false);
-    // });
   }, []);
 
   const queryData = () => {
+    clearErr();
     return new Promise(resolve => {
       const api = new VeggieRequests();
       api.getVeggies().then(data => {
         if (data.success) {
           setVeggies(data.veggies);
         } else {
-          setErr(data.error);
+          setErr(data.msg);
         }
         resolve();
       });
@@ -77,13 +77,32 @@ const Veggies = () => {
   };
 
   const handleAddVeggie = formData => {
+    clearErr();
     const api = new VeggieRequests();
     api.addVeggie(formData.veggieName, formData.veggiePrice).then(data => {
       if (data.success) {
         queryData().then(() => {});
+      } else {
+        setErr(data.msg);
       }
     });
   };
+
+  const handleDelete = veggieId => {
+    clearErr();
+    const api = new VeggieRequests();
+    api.deleteVeggie(veggieId).then(data => {
+      if (data.success) {
+        queryData().then(() => {});
+      } else {
+        setErr(data.msg);
+      }
+    });
+  };
+
+  // clear error helper
+  // I clear the error before every HTTP request
+  const clearErr = () => setErr("");
 
   if (loading) {
     return <p>Loading...</p>;
@@ -94,6 +113,7 @@ const Veggies = () => {
       <h1>Inventory Management for Veggies</h1>
       {err.length > 0 && <Error err={err} />}
       <AddVeggie onSubmit={handleAddVeggie} />
+      {veggies !== null && veggies.length === 0 && <p>Veggies in database</p>}
       {veggies !== null && veggies.length > 0 && (
         <Fragment>
           {veggies.map(veg => (
@@ -102,6 +122,7 @@ const Veggies = () => {
               veggieId={veg.id}
               veggieName={veg.name}
               veggiePrice={veg.price}
+              onDeleteClicked={handleDelete}
             />
           ))}
         </Fragment>
