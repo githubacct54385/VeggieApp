@@ -1,8 +1,9 @@
 import React, { Fragment, useState } from "react";
 import AddVeggieValidation from "../FormValidation/AddVeggieValidation";
 import Error from "./Error";
+import PropTypes from "prop-types";
 
-const AddVeggie = () => {
+const AddVeggie = ({ onSubmit }) => {
   const [formData, setFormData] = useState({ veggieName: "", veggiePrice: "" });
   const [err, setErr] = useState("");
   const handleSubmit = e => {
@@ -16,6 +17,9 @@ const AddVeggie = () => {
 
     if (validationResult.hasError) {
       setErr(validationResult.err);
+    } else {
+      onSubmit(formData);
+      setFormData({ veggieName: "", veggiePrice: "" });
     }
   };
 
@@ -53,6 +57,10 @@ const AddVeggie = () => {
       </form>
     </Fragment>
   );
+};
+
+AddVeggie.propTypes = {
+  onSubmit: PropTypes.func.isRequired
 };
 
 export default AddVeggie;

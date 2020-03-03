@@ -48,16 +48,42 @@ const Veggies = () => {
   const [veggies, setVeggies] = useState([]);
   const [err, setErr] = useState("");
   useEffect(() => {
-    const api = new VeggieRequests();
-    api.getVeggies().then(data => {
-      if (data.success) {
-        setVeggies(data.veggies);
-      } else {
-        setErr(data.error);
-      }
+    queryData().then(() => {
       setLoading(false);
     });
+    // const api = new VeggieRequests();
+    // api.getVeggies().then(data => {
+    //   if (data.success) {
+    //     setVeggies(data.veggies);
+    //   } else {
+    //     setErr(data.error);
+    //   }
+    //   setLoading(false);
+    // });
   }, []);
+
+  const queryData = () => {
+    return new Promise(resolve => {
+      const api = new VeggieRequests();
+      api.getVeggies().then(data => {
+        if (data.success) {
+          setVeggies(data.veggies);
+        } else {
+          setErr(data.error);
+        }
+        resolve();
+      });
+    });
+  };
+
+  const handleAddVeggie = formData => {
+    const api = new VeggieRequests();
+    api.addVeggie(formData.veggieName, formData.veggiePrice).then(data => {
+      if (data.success) {
+        queryData().then(() => {});
+      }
+    });
+  };
 
   if (loading) {
     return <p>Loading...</p>;
@@ -67,7 +93,7 @@ const Veggies = () => {
     <Fragment>
       <h1>Inventory Management for Veggies</h1>
       {err.length > 0 && <Error err={err} />}
-      <AddVeggie />
+      <AddVeggie onSubmit={handleAddVeggie} />
       {veggies !== null && veggies.length > 0 && (
         <Fragment>
           {veggies.map(veg => (
