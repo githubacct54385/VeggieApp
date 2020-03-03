@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react";
 import VeggieRequests from "../Api/VeggieRequests";
 import "../Veggie.css";
+import styled from "styled-components";
 
 const QueryVeggiesError = ({ error }) => {
   return (
@@ -10,15 +11,41 @@ const QueryVeggiesError = ({ error }) => {
   );
 };
 
-const Veggie = ({ veggieId, veggieName }) => {
+const VeggieFlexContainer = styled.div`
+  background-color: #46d646;
+  font-size: 14px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  border-radius: 10px;
+  margin: 15px 0;
+  padding: 10px 10px;
+`;
+
+const VeggieName = styled.div`
+  font-size: 20px;
+  flex: 2;
+`;
+
+const VeggiePrice = styled.div`
+  font-size: 20px;
+  flex: 2;
+`;
+
+const VeggieButtons = styled.div`
+  flex: 1;
+`;
+
+const Veggie = ({ veggieId, veggieName, veggiePrice }) => {
   return (
-    <div className="card card-body veggie">
-      <div className="veggie-name">{veggieName}</div>
-      <div className="veggie-buttons">
-        <button className="btn btn-secondary">Update</button>
-        <button className="btn btn-danger">Delete</button>
-      </div>
-    </div>
+    <VeggieFlexContainer>
+      <VeggieName>{veggieName}</VeggieName>
+      <VeggiePrice>{veggiePrice}</VeggiePrice>
+      <VeggieButtons>
+        <button className="btn btn-light m-2">Update</button>
+        <button className="btn btn-danger m-2">Delete</button>
+      </VeggieButtons>
+    </VeggieFlexContainer>
   );
 };
 
@@ -48,7 +75,12 @@ const Veggies = () => {
       {veggies !== null && veggies.length > 0 && (
         <Fragment>
           {veggies.map(veg => (
-            <Veggie key={veg.id} veggieId={veg.id} veggieName={veg.name} />
+            <Veggie
+              key={veg.id}
+              veggieId={veg.id}
+              veggieName={veg.name}
+              veggiePrice={veg.price}
+            />
           ))}
         </Fragment>
       )}

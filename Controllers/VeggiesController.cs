@@ -24,8 +24,8 @@ namespace DotNetReact.Controllers
       try
       {
         List<Veggie> veggies = new List<Veggie>();
-        veggies.Add(new Veggie(Guid.NewGuid(), "Carrot"));
-        veggies.Add(new Veggie(Guid.NewGuid(), "Radish"));
+        veggies.Add(new Veggie(Guid.NewGuid(), "Carrot", 3.50));
+        veggies.Add(new Veggie(Guid.NewGuid(), "Radish", 2.20));
 
         //throw new Exception("Whoa");
         return new VeggiesPayload(veggies, "", true);
@@ -56,10 +56,12 @@ public class Veggie
 {
   public Guid Id { get; set; }
   public string Name { get; set; }
+  public double Price { get; set; }
 
-  public Veggie(Guid id, string name)
+  public Veggie(Guid id, string name, double price)
   {
     Id = id;
     Name = name;
+    Price = price;
   }
 }
