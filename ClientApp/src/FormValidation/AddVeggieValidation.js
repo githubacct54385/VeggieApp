@@ -10,6 +10,17 @@ export default function AddVeggieValidation(name, price) {
     };
   }
 
+  // todo this isnt working...
+  const symbolsPattern = /[[./!@#$%^&*/(\)\[\]+=<>?;:\"\'|~`]]/g;
+  if (symbolsPattern.test(name) === true) {
+    return {
+      hasError: true,
+      err: "Veggie name cannot contain symbols.",
+      field: "name"
+    };
+  }
+
+  // name cannot be numeric
   const numericPattern = /[0-9]/g;
   if (numericPattern.test(name) === true) {
     return {
@@ -20,7 +31,7 @@ export default function AddVeggieValidation(name, price) {
   }
 
   const correctNamePattern = /([\s]*[A-Za-z]*[\s]*[A-Za-z]*)*/g;
-  // name must be alphabetical
+  // name must be alphabetical, spaces are ok.
   if (correctNamePattern.test(name) === false) {
     return {
       hasError: true,
