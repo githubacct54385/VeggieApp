@@ -1,0 +1,18 @@
+.veggie {
+  background-color: #46d646;
+  font-size: 14px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.veggie:hover {
+  background-color: #318f31;
+}
+
+.veggie-name {
+  flex-grow: 3;
+}
+
+.veggie-buttons {
+  flex-grow: 1;
+}
