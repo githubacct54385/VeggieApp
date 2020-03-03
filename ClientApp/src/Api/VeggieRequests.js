@@ -13,6 +13,39 @@ export default class VeggieRequests {
     });
   };
 
+  getVeggieById = veggieId => {
+    return new Promise(resolve => {
+      axios
+        .get(`/Veggies/GetVeggieById?id=${veggieId}`)
+        .then(res => {
+          const { data } = res;
+          resolve(data);
+        })
+        .catch(err =>
+          resolve({ id: "", name: "", price: "", msg: err, success: false })
+        );
+    });
+  };
+
+  updateVeggie = (veggieId, name, price) => {
+    return new Promise(resolve => {
+      axios({
+        url: "/Veggies/UpdateVeggie",
+        method: "put",
+        data: {
+          Id: veggieId,
+          Name: name,
+          Price: `${price}`
+        }
+      })
+        .then(res => {
+          const { data } = res;
+          resolve(data);
+        })
+        .catch(err => resolve({ success: false, msg: err }));
+    });
+  };
+
   deleteVeggie = veggieId => {
     return new Promise(resolve => {
       axios({

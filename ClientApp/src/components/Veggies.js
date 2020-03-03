@@ -1,5 +1,6 @@
 import React, { Fragment, useState, useEffect } from "react";
 import VeggieRequests from "../Api/VeggieRequests";
+import { Link } from "react-router-dom";
 import "../Veggie.css";
 import styled from "styled-components";
 import AddVeggie from "./AddVeggie";
@@ -36,7 +37,9 @@ const Veggie = ({ veggieId, veggieName, veggiePrice, onDeleteClicked }) => {
       <VeggieName>{veggieName}</VeggieName>
       <VeggiePrice>${veggiePrice}</VeggiePrice>
       <VeggieButtons>
-        <button className="btn btn-light m-2">Update</button>
+        <Link to={`/updateVeggie/${veggieId}`} className="btn btn-light m-2">
+          Go To Update Page
+        </Link>
         <button
           onClick={e => {
             e.preventDefault();
@@ -55,6 +58,7 @@ const Veggies = () => {
   const [loading, setLoading] = useState(true);
   const [veggies, setVeggies] = useState([]);
   const [err, setErr] = useState("");
+
   useEffect(() => {
     queryData().then(() => {
       setLoading(false);

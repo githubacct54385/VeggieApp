@@ -21,8 +21,24 @@ namespace DotNetReact.Controllers {
       try {
         List<Veggie> veggies = await _veggieProcessor.Get ();
         return new VeggiesPayload (veggies, "", true);
-      } catch (System.Exception ex) {
+      } catch (System.Exception) {
         return new VeggiesPayload (new List<Veggie> (), "Server Error!  Did you check the connection string?", false);
+      }
+    }
+
+    [HttpGet]
+    [Route ("/Veggies/GetVeggieById")]
+    public async Task<SingleVeggiePayload> GetVeggieById (Guid id) {
+      try {
+        Veggie foundVeggie = await _veggieProcessor.GetById (id);
+        if (foundVeggie != null) {
+          return new SingleVeggiePayload (foundVeggie, true, "");
+        } else {
+          return new SingleVeggiePayload (null, false, "Failed to find the Veggie in the database with the Id.  This is odd...");
+
+        }
+      } catch (System.Exception) {
+        return new SingleVeggiePayload (null, false, "Server Error!  Did you check the connection string.");
       }
     }
 
@@ -37,7 +53,7 @@ namespace DotNetReact.Controllers {
         }
         return new CreateVeggiePayload (false, "Insert Veggie failed at the Data Access layer.");
 
-      } catch (System.Exception ex) {
+      } catch (System.Exception) {
         return new CreateVeggiePayload (false, "Server Error!  Did you check your connection string?");
       }
     }
@@ -46,6 +62,10 @@ namespace DotNetReact.Controllers {
     [Route ("/Veggies/UpdateVeggie")]
     public async Task<CreateVeggiePayload> UpdateVeggie ([FromBody] UpdateVeggieParams payload) {
       try {
+
+        if (payload.Id == Guid.Empty) {
+          throw new Exception ("Payload Id is empty.");
+        }
         // find this veggie
         Veggie foundVeggie = await _veggieProcessor.GetById (payload.Id);
         if (foundVeggie == null) {
@@ -63,7 +83,7 @@ namespace DotNetReact.Controllers {
         }
         return new CreateVeggiePayload (false, "Update failed at the Data Access layer.");
 
-      } catch (System.Exception ex) {
+      } catch (System.Exception) {
         return new CreateVeggiePayload (false, "Server Error! Did you check your connection string?");
       }
     }
@@ -80,7 +100,7 @@ namespace DotNetReact.Controllers {
           return new CreateVeggiePayload (true, "");
         }
         return new CreateVeggiePayload (false, "Delete failed at the Data Access layer.");
-      } catch (System.Exception ex) {
+      } catch (System.Exception) {
         return new CreateVeggiePayload (false, "Server Error! Did you check your connection string?");
       }
     }
