@@ -2,14 +2,8 @@ import React, { Fragment, useState, useEffect } from "react";
 import VeggieRequests from "../Api/VeggieRequests";
 import "../Veggie.css";
 import styled from "styled-components";
-
-const QueryVeggiesError = ({ error }) => {
-  return (
-    <div className="alert alert-danger" role="alert">
-      {error}
-    </div>
-  );
-};
+import AddVeggie from "./AddVeggie";
+import Error from "./Error";
 
 const VeggieFlexContainer = styled.div`
   background-color: #46d646;
@@ -40,7 +34,7 @@ const Veggie = ({ veggieId, veggieName, veggiePrice }) => {
   return (
     <VeggieFlexContainer>
       <VeggieName>{veggieName}</VeggieName>
-      <VeggiePrice>{veggiePrice}</VeggiePrice>
+      <VeggiePrice>${veggiePrice}</VeggiePrice>
       <VeggieButtons>
         <button className="btn btn-light m-2">Update</button>
         <button className="btn btn-danger m-2">Delete</button>
@@ -71,7 +65,9 @@ const Veggies = () => {
 
   return (
     <Fragment>
-      {err.length > 0 && <QueryVeggiesError error={err} />}
+      <h1>Inventory Management for Veggies</h1>
+      {err.length > 0 && <Error err={err} />}
+      <AddVeggie />
       {veggies !== null && veggies.length > 0 && (
         <Fragment>
           {veggies.map(veg => (
