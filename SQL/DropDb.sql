@@ -1,4 +1,4 @@
--- If you want to drop the database, you can use this script
+-- If you want to drop the tables (not the database), you can use this script
 
 DROP TABLE [dbo].[Veggie]
 GO
