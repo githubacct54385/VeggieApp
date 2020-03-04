@@ -72,7 +72,7 @@ Beware that setting up the SQL Server is done by you.
 
 #### Creating the schema
 
-The schema for the database is located in the SQL folder.  
+The schema for the database is located in the `/SQL` folder.  
 Please run `CreateDb.sql` to create the table and stored procedures. Do this after you create the database in SQL Server.
 
 #### Seeding the database
