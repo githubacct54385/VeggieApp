@@ -83,7 +83,7 @@ You can seed the database by using the sql in `SeedDb.sql`.
 
 You may drop all tables and stored procedures using `DropDb.sql`
 
-## Deployment
+## Cloud Deployment
 
 This app can be setup for deployment by modifying an existing shell script or creating a new one.  
 If I were to deploy this I would look to Heroku or Azure App Service since I have the most experience working with them.
