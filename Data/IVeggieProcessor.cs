@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using DotNetReact.Models;
 
 namespace DotNetReact.Data {
+  // Interface for processing requests and any server validation
   public interface IVeggieProcessor {
     // Gets all the veggies
     Task<List<Veggie>> Get ();

@@ -8,6 +8,9 @@ namespace DotNetReact.Data {
   public class VeggieProcessor : IVeggieProcessor {
     private readonly IVeggieDataAccess _dataAccess;
     public VeggieProcessor () {
+      // inject the data access class
+      // I do this because I may want to do TDD on this
+      // at a later date and not have to deal with real data
       _dataAccess = new VeggieDataAccess ();
     }
 

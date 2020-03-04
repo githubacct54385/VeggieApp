@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using DotNetReact.Models;
 
 namespace DotNetReact.Data {
+  // Interface for data access
   public interface IVeggieDataAccess {
     Task<List<Veggie>> Get (string sql);
     Task<Veggie> GetById (string sql, Guid id);

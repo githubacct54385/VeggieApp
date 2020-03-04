@@ -6,15 +6,29 @@ using DotNetReact.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DotNetReact.Controllers {
+  // Class:   VeggiesController
+  // Use:     This contains all API methods for veggies and communicates
+  //          with the SQL server
+  // Notes:   This controller uses dependency injection.  The VeggieProcessor
+  //          is injected into this app to perform database actions.
+  //          All API endpoints are here:
+  //          GetVeggies()
+  //          GetVeggieById(Guid)
+  //          CreateVeggie(CreateVeggieParams)
+  //          UpdateVeggie(UpdateVeggieParams)
+  //          DeleteVeggie(DeleteVeggieParams)
+
   [ApiController]
   [Route ("[controller]")]
   public class VeggiesController : ControllerBase {
     private readonly IVeggieProcessor _veggieProcessor;
 
     public VeggiesController () {
+      // injected dependency for db actions
       _veggieProcessor = new VeggieProcessor ();
     }
 
+    // Get all veggies
     [HttpGet]
     [Route ("/Veggies/GetVeggies")]
     public async Task<VeggiesPayload> GetVeggies () {
@@ -26,6 +40,7 @@ namespace DotNetReact.Controllers {
       }
     }
 
+    // Get veggie by Id.
     [HttpGet]
     [Route ("/Veggies/GetVeggieById")]
     public async Task<SingleVeggiePayload> GetVeggieById (Guid id) {
@@ -42,11 +57,16 @@ namespace DotNetReact.Controllers {
       }
     }
 
+    // Create a brand new veggie
     [HttpPost]
     [Route ("/Veggies/CreateVeggie")]
     public async Task<CreateVeggiePayload> CreateVeggie ([FromBody] CreateVeggieParams payload) {
       try {
+        // create method does server validation of from body arguments
+        // if doesn't pass, an exception is thrown
         Veggie createdVeggie = _veggieProcessor.Create (payload.Name, Convert.ToDouble (payload.Price));
+
+        // inserts into the db
         bool inserted = await _veggieProcessor.Insert (createdVeggie);
         if (inserted) {
           return new CreateVeggiePayload (true, "");
@@ -58,11 +78,12 @@ namespace DotNetReact.Controllers {
       }
     }
 
+    // Updates a veggie
     [HttpPut]
     [Route ("/Veggies/UpdateVeggie")]
     public async Task<CreateVeggiePayload> UpdateVeggie ([FromBody] UpdateVeggieParams payload) {
       try {
-
+        // validate Id
         if (payload.Id == Guid.Empty) {
           throw new Exception ("Payload Id is empty.");
         }
@@ -88,10 +109,12 @@ namespace DotNetReact.Controllers {
       }
     }
 
+    // Delete a veggie by Id
     [HttpDelete]
     [Route ("/Veggies/DeleteVeggie")]
     public async Task<CreateVeggiePayload> DeleteVeggie ([FromBody] DeleteVeggieParams payload) {
       try {
+        // check the Id from the request body
         if (payload.Id == Guid.Empty) {
           throw new Exception ("Delete Id was an empty Guid.");
         }
@@ -107,6 +130,7 @@ namespace DotNetReact.Controllers {
 
   }
 
+  // All HTTP payloads
   public class DeleteVeggieParams {
     public Guid Id { get; set; }
     public DeleteVeggieParams () {

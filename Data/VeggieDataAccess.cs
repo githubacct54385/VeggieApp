@@ -10,10 +10,12 @@ using DotNetReact.Config;
 using DotNetReact.Models;
 
 namespace DotNetReact.Data {
+  // Data Access methods implemented 
   public sealed class VeggieDataAccess : IVeggieDataAccess {
 
     private readonly string _connString;
     public VeggieDataAccess () {
+      // inject the connection string from Db.cs
       _connString = Db.ConnectionString ();
 
     }
