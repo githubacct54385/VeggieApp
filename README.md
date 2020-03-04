@@ -10,7 +10,7 @@ Client: Create-React-App
 
 CSS: React inline styles, styled components, and some .css files
 
-Database: SQL Server
+Database: SQL Server (For development of this project, I've been using Azure SQL Database)
 
 This app functions as an SPA (Single Page Application) that communicates with the Backend through HTTP requests.
 
