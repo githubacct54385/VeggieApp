@@ -1,4 +1,12 @@
 #!/bin/bash
+
+# Welcome to the initialization script for the app
+# You can use this script by running ./init.sh in the VeggieApp directory
+# This script does the following:
+# 1) installs npm dependencies
+# 2) Builds the dotnet core server
+# 3) runs the dotnet core server
+
 # Write message to user
 echo Hello!  I am going to get things setup for you.
 echo
