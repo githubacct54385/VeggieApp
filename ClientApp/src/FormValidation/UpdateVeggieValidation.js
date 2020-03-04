@@ -1,6 +1,6 @@
 import validator from "validator";
 
-export default function AddVeggieValidation(name, price) {
+export default function UpdateVeggieValidation(name, price) {
   // name cannot be empty
   if (name === "") {
     return {
@@ -41,6 +41,7 @@ export default function AddVeggieValidation(name, price) {
   }
 
   // price must be a number
+  // here I am converting potential price as number to a string
   if (validator.isDecimal(`${price}`) === false) {
     return {
       hasError: true,

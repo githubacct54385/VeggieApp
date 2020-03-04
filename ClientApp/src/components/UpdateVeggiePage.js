@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Error from "./Error";
 import VeggieRequests from "../Api/VeggieRequests";
+import UpdateVeggieValidation from "../FormValidation/UpdateVeggieValidation";
 
 const UpdateVeggiePage = ({
   match: {
@@ -36,21 +36,25 @@ const UpdateVeggiePage = ({
 
   const handleLocalUpdate = e => {
     e.preventDefault();
+    setErr("");
 
-    // todo validation
+    const validationResult = UpdateVeggieValidation(name, price);
 
-    // make update request
-    const api = new VeggieRequests();
-    api.updateVeggie(id, name, price).then(data => {
-      console.log(data);
-      if (data.success) {
-        console.log("redirect");
-        window.location.href = "/veggies";
-        // return <Redirect to="/veggies" />;
-      } else {
-        setErr(data.msg);
-      }
-    });
+    if (validationResult.hasError) {
+      setErr(validationResult.err);
+    } else {
+      // make update request
+      const api = new VeggieRequests();
+      api.updateVeggie(id, name, price).then(data => {
+        if (data.success) {
+          // performing redirect this way since
+          // React Router DOM redirect was failing
+          window.location.href = "/veggies";
+        } else {
+          setErr(data.msg);
+        }
+      });
+    }
   };
 
   return (
