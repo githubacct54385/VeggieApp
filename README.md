@@ -24,7 +24,7 @@ All communication with the database is done through stored procedures for securi
 
 For security purposes, I have not included the connection string in the app. You'll need to provide your own.
 
-In the root directory (VeggieApp), add a file `connectionStrings.json`
+In the root directory, add a file `connectionStrings.json`
 
 This file is already added to the `.gitignore` file.
 
@@ -49,7 +49,7 @@ For my development, I used a managed SQL Server hosted on Azure. But you can use
 $ git clone https://github.com/githubacct54385/VeggieApp.git
 ```
 
-2. Run init<span></span>.sh inside the **VeggieApp** folder.
+2. Run init<span></span>.sh inside the **root** folder.
 
 ```
 $ chmod 755 ./init.sh # you may need to run this
