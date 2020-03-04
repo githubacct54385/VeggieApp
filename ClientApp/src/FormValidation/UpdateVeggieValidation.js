@@ -1,5 +1,11 @@
 import validator from "validator";
 
+// Default Export: UpdateVeggieValidation
+// Purpose: Validate Update veggie params on client side
+// Name and price cannot be empty
+// Name cannot contain numbers or symbols
+// Name should be alphabetical but spaces are ok
+// Price should be greater than zero
 export default function UpdateVeggieValidation(name, price) {
   // name cannot be empty
   if (name === "") {

@@ -87,3 +87,17 @@ You may drop all tables and stored procedures using `DropDb.sql`
 
 This app can be setup for deployment by modifying an existing shell script or creating a new one.  
 If I were to deploy this I would look to Heroku or Azure App Service since I have the most experience working with them.
+
+## Remarks
+
+#### Anti-forgery tokens missing
+
+This app does not include Anti Forgery Tokens on HTTP requests, especially POST/PUT/DELETE requests. For the sake of completing this within the given time constraints, I did not add these. I do however believe they are important when designing request handling to prevent CSRF attacks.
+
+#### SQL Injection proof
+
+This app is secure from SQL injection thanks to paramaterized queries and stored procedures.
+
+#### No authentication
+
+If this app were to get bigger, authentication would be needed.

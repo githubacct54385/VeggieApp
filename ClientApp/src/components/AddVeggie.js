@@ -3,13 +3,21 @@ import AddVeggieValidation from "../FormValidation/AddVeggieValidation";
 import Error from "./Error";
 import PropTypes from "prop-types";
 
+// Component
+// AddVeggie
+// The add veggie form
 const AddVeggie = ({ onSubmit }) => {
+  // form data
   const [formData, setFormData] = useState({ veggieName: "", veggiePrice: "" });
+  // error
   const [err, setErr] = useState("");
+
+  // event handler for submit
   const handleSubmit = e => {
     e.preventDefault();
     setErr("");
 
+    // validate
     const validationResult = AddVeggieValidation(
       formData.veggieName,
       formData.veggiePrice
@@ -18,11 +26,13 @@ const AddVeggie = ({ onSubmit }) => {
     if (validationResult.hasError) {
       setErr(validationResult.err);
     } else {
+      // run add veggie
       onSubmit(formData);
       setFormData({ veggieName: "", veggiePrice: "" });
     }
   };
 
+  // handle input changes
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };

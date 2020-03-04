@@ -6,6 +6,9 @@ import styled from "styled-components";
 import AddVeggie from "./AddVeggie";
 import Error from "./Error";
 
+// Styled Component
+// VeggieFlexConatiner
+// The green flex container for each veggie
 const VeggieFlexContainer = styled.div`
   background-color: #46d646;
   font-size: 14px;
@@ -17,20 +20,35 @@ const VeggieFlexContainer = styled.div`
   padding: 10px 10px;
 `;
 
+// Styled Component
+// VeggieName
+// For font and responsive design of veggie's name
 const VeggieName = styled.div`
   font-size: 20px;
   flex: 2;
 `;
 
+// Styled Component
+// VeggiePrice
+// For font and responsive design of veggie's price
 const VeggiePrice = styled.div`
   font-size: 20px;
   flex: 2;
 `;
 
+// Styled Component
+// VeggieButtons
+// For responsive design of veggie buttons (update and delete)
 const VeggieButtons = styled.div`
   flex: 1;
 `;
 
+// Component
+// Veggie
+// The functional JSX of the Veggie
+// Each has a link to the upate page
+// Also a prop onDeleteClicked to handle passing
+// the delete Veggie action up the component tree
 const Veggie = ({ veggieId, veggieName, veggiePrice, onDeleteClicked }) => {
   return (
     <VeggieFlexContainer>
@@ -54,17 +72,36 @@ const Veggie = ({ veggieId, veggieName, veggiePrice, onDeleteClicked }) => {
   );
 };
 
+// Component
+// Veggies
+// This is the root of this SPA page
+// State and effects are here
 const Veggies = () => {
+  // local useState
+
+  // loading: (is the page loading?) [bool]
   const [loading, setLoading] = useState(true);
+
+  // veggies: (all the veggies on the page) [array]
   const [veggies, setVeggies] = useState([]);
+
+  // err: (any error) [string]
   const [err, setErr] = useState("");
 
+  // Effect
+  // This is my "Component Did Mount"
+  // it runs on page load only
+  // it queries veggies then sets loading to false
   useEffect(() => {
     queryData().then(() => {
       setLoading(false);
     });
   }, []);
 
+  // Event Handler
+  // queryData()
+  // Queries veggies from the backend
+  // sets error if failed
   const queryData = () => {
     clearErr();
     return new Promise(resolve => {
@@ -80,6 +117,10 @@ const Veggies = () => {
     });
   };
 
+  // Event Handler
+  // handleAddVeggie(formData)
+  // adds a veggie and queries data if successful
+  // sets error if failed
   const handleAddVeggie = formData => {
     clearErr();
     const api = new VeggieRequests();
@@ -92,6 +133,10 @@ const Veggies = () => {
     });
   };
 
+  // Event Handler
+  // handleDelete(veggieId)
+  // deletes a veggie and queries data if successful
+  // sets error if failed
   const handleDelete = veggieId => {
     clearErr();
     const api = new VeggieRequests();
@@ -108,10 +153,14 @@ const Veggies = () => {
   // I clear the error before every HTTP request
   const clearErr = () => setErr("");
 
+  // if loading, just show a loading paragraph
   if (loading) {
     return <p>Loading...</p>;
   }
 
+  // Displays header info
+  // error
+  // maps through all veggies
   return (
     <Fragment>
       <h1>Inventory Management for Veggies</h1>

@@ -1,6 +1,12 @@
 import axios from "axios";
 
+// Class:   VeggieRequests
+// Purpose: Make requests to the backend api
+// Notes:   All required API routes are listed here
+//          I usually prefer Promises to async/await
+//          but can also do this with async/await
 export default class VeggieRequests {
+  // get all veggies
   getVeggies = () => {
     return new Promise(resolve => {
       axios
@@ -13,6 +19,7 @@ export default class VeggieRequests {
     });
   };
 
+  // get veggie by id
   getVeggieById = veggieId => {
     return new Promise(resolve => {
       axios
@@ -27,6 +34,7 @@ export default class VeggieRequests {
     });
   };
 
+  // update veggie using the id, name, and price
   updateVeggie = (veggieId, name, price) => {
     return new Promise(resolve => {
       axios({
@@ -46,6 +54,7 @@ export default class VeggieRequests {
     });
   };
 
+  // delete veggie using the id
   deleteVeggie = veggieId => {
     return new Promise(resolve => {
       axios({
@@ -63,6 +72,8 @@ export default class VeggieRequests {
     });
   };
 
+  // insert (add) veggie name and price
+  // Guid is provided by the backend
   addVeggie = (name, price) => {
     return new Promise(resolve => {
       axios({

@@ -4,20 +4,34 @@ import Error from "./Error";
 import VeggieRequests from "../Api/VeggieRequests";
 import UpdateVeggieValidation from "../FormValidation/UpdateVeggieValidation";
 
+// Component
+// UpdayeVeggiePage
+// The update page for a veggie
+// Users go here when they click the update button
+// on a veggie
 const UpdateVeggiePage = ({
   match: {
     params: { id }
   }
 }) => {
+  // local state (form data)
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
+
+  // error
   const [err, setErr] = useState("");
 
+  // effect
+  // component did mount
+  // get the veggie data from the server to auto fill
+  // the update form
   useEffect(() => {
     // get name and price
     getVeggieForPage();
   }, []);
 
+  // function
+  // get the veggie name and price for the form at mount
   const getVeggieForPage = () => {
     if (id === null || id === undefined) {
       setErr("Veggie Id is missing.  Unable to request data.");
@@ -34,10 +48,12 @@ const UpdateVeggiePage = ({
     }
   };
 
+  // event handler for handling submit
   const handleLocalUpdate = e => {
     e.preventDefault();
     setErr("");
 
+    // validate
     const validationResult = UpdateVeggieValidation(name, price);
 
     if (validationResult.hasError) {
